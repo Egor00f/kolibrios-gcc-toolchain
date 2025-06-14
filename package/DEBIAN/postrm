@@ -1,12 +1,17 @@
 #!/bin/bash
 
+CONFIG_FOLDER="/etc/kos32-gcc"
+INSTALL_PATH_FILE="$CONFIG_FOLDER/install-path"
+DEFAULT_TOOLCHAIN_DIR="/home/autobuild/tools"
+
+
 TOOLCHAIN_DIR=$(head -n 1 /etc/kos32-gcc/install-path)
 
-MESSAGE="PATH=\$PATH:$TOOLCHAIN_DIR/win32/bin"
 
-if  grep -q '$MESSAGE' /etc/profile; then
-	sudo sed -i '/$MESSAGE/d' /etc/profile
-fi
+FULL_PATH="$TOOLCHAIN_DIR/win32/bin"
+CHR="/"
+REPLACE_TO="\/"
 
-rm /etc/kos32-gcc -R
+MESSAGE="${FULL_PATH//$CHR/"$REPLACE_TO"}"
 
+sudo sed -i -e '/'$MESSAGE'/d' /etc/profile

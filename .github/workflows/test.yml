@@ -1,17 +1,23 @@
-name: test
+name: Test packages
 
 on:
   push:
     branches: [ "main" ]
+    paths-ignore:
+      - '.vscode/**'
+      - '.devcontainer/**'
+      - '.gitignore'
+      - 'CONTRIBUTING.md'
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
+
   #Test linux install script
   linux-install:
+    name: linux(sh) script install test
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -26,8 +32,9 @@ jobs:
           kos32-gcc -v
           kos32-g++ -v
 
-  #Test windows install script
-  windows-install:
+  #Test Batch install script
+  batch-install:
+    name: Batch script install test
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -38,11 +45,33 @@ jobs:
          choco install 7zip
 
       - name: Run script
-        run: ${{ github.workspace }}/install.bat
+        run: ${{ github.workspace }}\install.bat
+
+  #Test PowerShell install script
+  PowerShell-install:
+    name: PowerShell install script test
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install modules
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module -Name 7Zip4PowerShell
+
+      - name: Run script
+        run: ${{ github.workspace }}\install.ps1
+
+      - name: Test
+        run: |
+          kos32-gcc -v
+          kos32-g++ -v
 
   #Test Windows Installer
   build-Installer:
+    name: Build windows installer test
     runs-on: windows-latest
+    needs: PowerShell-install
     steps:
       - uses: actions/checkout@v4
 
@@ -58,8 +87,9 @@ jobs:
           # Upload entire repository
           path: './build/installer.exe'
 
-  # Test Package
-  package:
+  # Test deb package build
+  deb-package-build:
+    name: Debian package build test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -67,15 +97,28 @@ jobs:
       - name: Build
         run: |
           cmake -B ${{ github.workspace }}/build
-          cmake --build ${{ github.workspace }}/build --target Package
+          cmake --build ${{ github.workspace }}/build --target deb
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: package
+          name: deb-package
           # Upload entire repository
           path: './build/package.deb'
-        
+
+  # Test deb package install/remove
+  deb-package-test:
+    name: Debian package install/remove test
+    runs-on: ubuntu-latest
+    needs: deb-package-build
+    steps:
+      - uses: actions/checkout@v4
+              
+      - name: Build
+        run: |
+          cmake -B ${{ github.workspace }}/build
+          cmake --build ${{ github.workspace }}/build --target deb
+
       - name: Install package
         run: echo '/kolibrios-toolchain' | sudo apt install ${{ github.workspace }}/build/package.deb -y
         
@@ -93,4 +136,53 @@ jobs:
 
       - name: Remove package
         run: sudo apt remove kos32-gcc
+
+  #Test chocolatey package build
+  chocolatey-package-build:
+    name: Chocolatey build package test
+    runs-on: windows-latest
+    needs: PowerShell-install
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: |
+          cmake -B ${{ github.workspace }}/build
+          cmake --build ${{ github.workspace }}/build --target choco
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: choco-package
+          # Upload entire repository
+          path: './build/choco-package.nupkg'
+
+  # Test chocolatey package install/remove
+  chocolatey-package-test:
+    name: chocolatey install test
+    runs-on: windows-latest
+    needs: chocolatey-package-build
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install modules
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module -Name 7Zip4PowerShell
+
+      - name: Build
+        run: |
+          cmake -B ${{ github.workspace }}/build
+          cmake --build ${{ github.workspace }}/build --target choco
+
+      - name: Install package
+        run: choco install ${{ github.workspace }}\build\choco-package.nupkg
+        
+      - name: Test
+        run: |
+          kos32-gcc -v
+          kos32-g++ -v
+
+      - name: Remove package
+        run: choco uninstall kos32-gcc
 

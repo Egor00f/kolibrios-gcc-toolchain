@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>kos32-gcc</id>
+		<title>KolibriOS gcc toolchain installer</title>
+		<version>0.1.6</version>
+		<authors>Egor00f</authors>
+		<owners>Egor00f</owners>
+		<summary>idk</summary>
+		<description>_KolibriOS gcc toolchain installer. This package installing KolibriOS gcc toolchain by Serge.</description>
+		<packageSourceUrl>https://github.com/Egor00f/kolibrios-gcc-toolchain/</packageSourceUrl>
+		<tags>kolibrios toolchain compiler C/C++</tags>
+		<copyright></copyright>
+		<licenseUrl>https://github.com/Egor00f/kolibrios-gcc-toolchain/blob/main/LICENSE</licenseUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<!--<iconUrl>http://cdn.rawgit.com/__CHOCO_PKG_MAINTAINER_REPO__/master/icons/__NAME__.png</iconUrl>-->
+		<releaseNotes></releaseNotes>
+	</metadata>
+	<files>
+		<file src="tools\**" target="tools" />
+	</files>
+</package>

@@ -6,5 +6,13 @@
 		"msys",
 		"kolibrios",
 		"Egor"
-	]
+	],
+	"cSpell.ignorePaths": [
+		"vscode-extension",
+		".git/objects",
+		".vscode",
+		".vscode-insiders",
+		"package/DEBIAN"
+	],
+	"cmake.parallelJobs": 1
 }

@@ -35,23 +35,18 @@ check_utils(){
 	fi
 }
 
-if [ -f $INSTALL_PATH_FILE ]; then
-	TOOLCHAIN_DIR=$(head -n 1 $INSTALL_PATH_FILE)
-else
-	echo -n -e "\e[0mToolchain install path \e[90m(default is $DEFAULT_TOOLCHAIN_DIR)\e[97m: "
-	read INPUT
-	if [[ ! -z "$INPUT" ]]; then
-		TOOLCHAIN_DIR=$INPUT
-	else
-		TOOLCHAIN_DIR=$DEFAULT_TOOLCHAIN_DIR
-	fi
+TOOLCHAIN_DIR=$(head -n 1 $INSTALL_PATH_FILE)
+echo -n -e "\e[0mToolchain install path \e[90m(default is $TOOLCHAIN_DIR)\e[97m: "
+read INPUT
+
+if [[ ! -z "$INPUT" ]]; then
+	TOOLCHAIN_DIR=$INPUT
 fi
 
 echo -e "\e[0mInstalling toolchain to \e[97m$TOOLCHAIN_DIR\e[0m"
 
+
 print_msg "Checking utilities..."
-
-
 
 check_utils wget
 check_utils 7z
@@ -65,59 +60,30 @@ sudo mkdir -p $TOOLCHAIN_DIR
 
 print_ok "Successfully!"
 
+print_msg "Extracting toolchain ..."
 
-
-print_msg "Download the kos32-gcc toolchain..."
-
-sudo wget http://ftp.kolibrios.org/users/Serge/new/Toolchain/x86_64-linux-kos32-5.4.0.7z -q -O $TOOLCHAIN_DIR/kos32-toolchain.7z
-
-print_ok "Successfully!"
-
-
-
-print_msg "Extracting files ..."
-
-cd $TOOLCHAIN_DIR
-sudo 7z x -y -bso0 -bsp0 kos32-toolchain.7z
-sudo rm -rf kos32-toolchain.7z
+sudo 7z x -y  -bso0 -bsp0 $DEFAULT_TOOLCHAIN_DIR/kos32-toolchain-linux.7z -o$TOOLCHAIN_DIR
+sudo rm -rf $DEFAULT_TOOLCHAIN_DIR/kos32-toolchain-linux.7z
 
 print_ok "Successfully!"
 
 
 
-print_msg "Downloading libraries..."
+
+print_msg "Extracting libraries..."
 
 cd $TOOLCHAIN_DIR/win32/mingw32
-sudo wget http://ftp.kolibrios.org/users/Serge/new/Toolchain/sdk-28-10-16.7z -q -O sdk-28-10-16.7z
-sudo 7z x -y -bso0 -bsp0 sdk-28-10-16.7z
-sudo rm -rf sdk-28-10-16.7z
+sudo 7z x -y -bso0 -bsp0 $DEFAULT_TOOLCHAIN_DIR/lib.7z
+sudo rm -rf $DEFAULT_TOOLCHAIN_DIR/lib.7z
 
 print_ok "Successfully!"
 
 
-
-print_msg "Updating libraries"
-
-cd lib
-sudo wget -r --no-parent -q http://builds.kolibrios.org/en_US/data/contrib/sdk/lib/
-sudo mv builds.kolibrios.org/en_US/data/contrib/sdk/lib/* ./
-sudo rm -R builds.kolibrios.org
-
-print_ok "Successfully!"
-
-
-
-print_msg "Downloading libisl..."
-
-cd /tmp
-sudo wget http://board.kolibrios.org/download/file.php?id=8301libisl.so.10.2.2.7z -q -O /tmp/libisl.so.10.2.2.7z
-sudo 7z x -y -bso0 -bsp0 libisl.so.10.2.2.7z
 
 if ! [ -d /usr/lib/x86_64-linux-gnu/ ]; then
 	sudo mkdir -p /usr/lib/x86_64-linux-gnu/
 fi
 
-sudo mv /tmp/libisl.so.10.2.2 /usr/lib/x86_64-linux-gnu/libisl.so.10.2.2
 sudo ln -sf /usr/lib/x86_64-linux-gnu/libisl.so.10.2.2 /usr/lib/x86_64-linux-gnu/libisl.so.10
 sudo ln -sf /usr/lib/x86_64-linux-gnu/libisl.so.10.2.2 /usr/lib/libisl.so.10
 sudo chmod go-w /usr/lib/x86_64-linux-gnu/libisl.so.10 
@@ -146,9 +112,7 @@ EXPORT_MESSSAGE="export $MESSAGE"
 if [ ! "$(id -u)" -ne 0 ]
 then
 	echo $MESSAGE >> /etc/profile
-
-	sudo mkdir -p /etc/kos32-gcc
-	echo $TOOLCHAIN_DIR > /etc/kos32-gcc/install-path
+	echo $TOOLCHAIN_DIR > $INSTALL_PATH_FILE
 else
 	if ! grep -q $EXPORT_MESSSAGE ~/.bashrc; then
 		print_msg "Adding '$TOOLCHAIN_DIR/win32/bin' to '~/.bashrc'"

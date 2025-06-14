@@ -1,14 +1,16 @@
-Package: kos32-gcc
-Version: 0.1.4
-Architecture: all
-Section: devel
-Depends: libc6-i386:amd64, libmpc3:amd64
-Pre-Depends: p7zip-full, wget
-Recommends: fasm
-Priority: optional
-Homepage: https://github.com/Egor00f/kolibrios-gcc-toolchain
-Origin: http://ftp.kolibrios.org/users/Serge/new/Toolchain
-Maintainer: Egor00f <velikiydolbayeb@gmail.com>
+Package:        kos32-gcc
+Version:        0.1.8
+Architecture:   amd64
+Section:        devel
+Depends:        libc6-i386:amd64, 
+                libmpc3:amd64
+Pre-Depends:    p7zip-full, 
+                wget
+Recommends:     fasm
+Priority:       optional
+Homepage:       https://github.com/Egor00f/kolibrios-gcc-toolchain
+Origin:         http://ftp.kolibrios.org/users/Serge/new/Toolchain
+Maintainer:     Egor00f <velikiydolbayeb@gmail.com>
 Installed-Size: 131708
 Description: KolibriOS gcc toolchain installer
  This package installing KolibriOS gcc toolchain by Serge.

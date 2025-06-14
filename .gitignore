@@ -1,5 +1,7 @@
 Output/
-package/DEBIAN/postinst
-package/DEBIAN/copyright
-package.deb
 build/
+chocolatey/kos32-gcc*.nupkg
+chocolatey/install.ps1
+chocolatey/tools/install.ps1
+bat/builds.kolibrios.org
+*.7z

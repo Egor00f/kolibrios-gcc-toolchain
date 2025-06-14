@@ -1,9 +1,6 @@
 {
 	"recommendations": [
 		"chouzz.vscode-innosetup",
-		"streetsidesoftware.code-spell-checker",
-		"streetsidesoftware.code-spell-checker-russian",
 		"ms-vscode.cmake-tools",
-		"github.vscode-github-actions"
 	]
 }

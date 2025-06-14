@@ -1,7 +1,12 @@
 #!/bin/bash
 
-TOOLCHAIN_DIR=$(head -n 1 /etc/kos32-gcc/install-path)
+CONFIG_FOLDER="/etc/kos32-gcc"
+INSTALL_PATH_FILE="$CONFIG_FOLDER/install-path"
+DEFAULT_TOOLCHAIN_DIR="/home/autobuild/tools"
 
-rm -R $TOOLCHAIN_DIR
 
-rm -R /home/autobuild
+TOOLCHAIN_DIR=$(head -n 1 $INSTALL_PATH_FILE)
+
+rm -Rf $TOOLCHAIN_DIR
+
+rm -Rf /home/autobuild
