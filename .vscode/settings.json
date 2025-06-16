@@ -1,11 +1,18 @@
 {
 	"cSpell.words": [
 		"autobuild",
-		"тулчейн",
-		"тулчейна",
-		"msys",
+		"choco",
+		"dpkg",
+		"Egor",
+		"iscc",
 		"kolibrios",
-		"Egor"
+		"libisl",
+		"makepkg",
+		"msys",
+		"pacman",
+		"PKGBUILD",
+		"тулчейн",
+		"тулчейна"
 	],
 	"cSpell.ignorePaths": [
 		"vscode-extension",

@@ -2,6 +2,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.2)
 
 project(
 	KolibriOS-gcc-Toolchain-installer
+	VERSION 0.1.7
 	DESCRIPTION "Installer of gcc toolchain for KolibriOS"
 )
 
@@ -87,7 +88,6 @@ add_custom_target(
 		${CMAKE_CURRENT_BINARY_DIR}/package/
 )
 
-
 add_custom_target(
 	deb
 	COMMAND cp -f ${CMAKE_CURRENT_BINARY_DIR}/libisl.so.10.2.2 ${CMAKE_CURRENT_BINARY_DIR}/package/usr/lib/x86_64-linux-gnu/libisl.so.10.2.2
@@ -103,6 +103,15 @@ add_custom_target(
 		${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-linux.7z
 		${CMAKE_CURRENT_BINARY_DIR}/lib.7z
 		configureDebPackage
+)
+
+add_custom_target(
+	pkg
+	COMMAND makepkg
+	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+	COMMENT "Build pacman package"
+	SOURCES
+		${CMAKE_CURRENT_SOURCE_DIR}/install.sh
 )
 
 add_custom_target(
