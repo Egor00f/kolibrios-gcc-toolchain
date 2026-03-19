@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "KolibriOS gcc toolchain"
-#define MyAppVersion "0.1.5"
+#define MyAppVersion "0.1.9"
 #define MyAppPublisher "Egor00f"
 #define MyAppURL "https://github.com/Egor00f/kolibrios-gcc-toolchain"
 
@@ -65,18 +65,7 @@ Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environmen
     Check: NeedsAddPath('{app}\win32\bin')
 
 [Files]
-Source: ".\bat\downloadToolchain.bat"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: ".\bat\downloadLibraries.bat"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: ".\bat\updateLibraries.bat"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-
-[Run]
-Filename: "{app}\downloadToolchain.bat"; description: "install toolchain script"; StatusMsg: "Installing toolchain"; Parameters: "{app}"; Flags: runhidden logoutput
-Filename: "{app}\downloadLibraries.bat"; description: "download libraries script"; StatusMsg: "Download libraries"; Parameters: "{app}"; Flags: runhidden logoutput
-Filename: "{app}\updateLibraries.bat"; description: "update libraries script"; StatusMsg: "Updating libraries"; Parameters: "{app}"; Flags: runhidden logoutput
-Filename: "{app}\cleanArchives.bat"; description: "Delete downloaded archives script"; StatusMsg: "Delete downloaded archives"; Parameters: "{app}"; Flags: runhidden logoutput
-
+Source: ".\build\win32-win"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 [Icons]
 Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"

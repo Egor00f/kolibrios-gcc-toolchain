@@ -1,11 +1,10 @@
 Package:        kos32-gcc
-Version:        0.1.8
+Version:        0.1.9
 Architecture:   amd64
 Section:        devel
 Depends:        libc6-i386:amd64, 
                 libmpc3:amd64
-Pre-Depends:    p7zip-full, 
-                wget
+Pre-Depends:    p7zip-full
 Recommends:     fasm
 Priority:       optional
 Homepage:       https://github.com/Egor00f/kolibrios-gcc-toolchain

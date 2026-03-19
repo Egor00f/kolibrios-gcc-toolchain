@@ -48,7 +48,6 @@ echo -e "\e[0mInstalling toolchain to \e[97m$TOOLCHAIN_DIR\e[0m"
 
 print_msg "Checking utilities..."
 
-check_utils wget
 check_utils 7z
 
 

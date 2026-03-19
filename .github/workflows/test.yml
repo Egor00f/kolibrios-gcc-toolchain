@@ -32,21 +32,6 @@ jobs:
           kos32-gcc -v
           kos32-g++ -v
 
-  #Test Batch install script
-  batch-install:
-    name: Batch script install test
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Install depends
-        run: |
-         choco install wget
-         choco install 7zip
-
-      - name: Run script
-        run: ${{ github.workspace }}\install.bat
-
   #Test PowerShell install script
   PowerShell-install:
     name: PowerShell install script test
@@ -71,7 +56,6 @@ jobs:
   build-Installer:
     name: Build windows installer test
     runs-on: windows-latest
-    needs: PowerShell-install
     steps:
       - uses: actions/checkout@v4
 

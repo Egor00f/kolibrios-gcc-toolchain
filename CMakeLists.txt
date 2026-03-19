@@ -5,27 +5,12 @@ project(
 	DESCRIPTION "Installer of gcc toolchain for KolibriOS"
 )
 
-if(KOLIBRIOS_GCC_TOOLCHAIN_DOWNLOAD_LINUX)
 add_custom_target(
 	get_linux
-	COMMAND wget http://ftp.kolibrios.org/users/Serge/new/Toolchain/x86_64-linux-kos32-5.4.0.7z -q -O ${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-linux.7z
-	COMMAND wget http://board.kolibrios.org/download/file.php?id=8301libisl.so.10.2.2.7z -q -O ${CMAKE_CURRENT_BINARY_DIR}/libisl.so.10.2.2.7z
-	COMMENT "Get linux toolchain"
-	OUTPUT
-		${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-linux.7z
-		${CMAKE_CURRENT_BINARY_DIR}/libisl.so.10.2.2.7z
-	BYPRODUCTS
-		${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-linux.7z
-		${CMAKE_CURRENT_BINARY_DIR}/libisl.so.10.2.2.7z
-	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-)
-else()
-add_custom_target(
-	get_linux
-	COMMAND	${CMAKE_COMMAND} -E copy
+	COMMAND	${CMAKE_COMMAND} -E create_symlink
 	        ${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/x86_64-linux-kos32-5.4.0.7z
 	        ${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-linux.7z
-	COMMAND ${CMAKE_COMMAND} -E copy
+	COMMAND ${CMAKE_COMMAND} -E create_symlink
 	        ${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/libisl.so.10.2.2.7z 
 			${CMAKE_CURRENT_BINARY_DIR}/libisl.so.10.2.2.7z
 	COMMENT "Get linux toolchain"
@@ -37,12 +22,13 @@ add_custom_target(
 		${CMAKE_CURRENT_BINARY_DIR}/libisl.so.10.2.2.7z
 	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 )
-endif()
 
 add_custom_target(
-	download_windows
-	COMMAND wget http://ftp.kolibrios.org/users/Serge/new/Toolchain/msys-kos32-5.4.0.7z -q -O ${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-win.7z
-	COMMENT "Download windows toolchain"
+	get_windows
+	COMMAND ${CMAKE_COMMAND} -E create_symlink
+	        ${CMAKE_CURRENT_SOURCE_DIR}/kos32-toolchain-win.7z
+	        ${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-win.7z
+	COMMENT "Get windows toolchain"
 	OUTPUT
 		${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-win.7z
 	BYPRODUCTS
@@ -96,7 +82,7 @@ add_custom_target(
 
 add_custom_target(
 	Installer
-	COMMAND 7z x ${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-win.7z -o ${CMAKE_CURRENT_BINARY_DIR}
+	COMMAND 7z x ${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-win.7z -o ${CMAKE_CURRENT_BINARY_DIR}/win32-win
 	COMMAND iscc /O"${CMAKE_CURRENT_BINARY_DIR}" ${CMAKE_CURRENT_SOURCE_DIR}/installator.iss 
 	COMMENT "Build windows installer"
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
