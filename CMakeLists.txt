@@ -6,20 +6,26 @@ project(
 )
 
 add_custom_target(
-	get_linux
-	COMMAND	${CMAKE_COMMAND} -E create_symlink
-	        ${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/x86_64-linux-kos32-5.4.0.7z
-	        ${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-linux.7z
+	get_libisl
 	COMMAND ${CMAKE_COMMAND} -E create_symlink
 	        ${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/libisl.so.10.2.2.7z 
 			${CMAKE_CURRENT_BINARY_DIR}/libisl.so.10.2.2.7z
+	COMMENT "Get libisl"
+	OUTPUT 	${CMAKE_CURRENT_BINARY_DIR}/libisl.so.10.2.2.
+	BYPRODUCTS
+		${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-linux.7z
+)
+
+add_custom_target(
+	get_linux_toolchain
+	COMMAND	${CMAKE_COMMAND} -E create_symlink
+	        ${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/x86_64-linux-kos32-5.4.0.7z
+	        ${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-linux.7z
 	COMMENT "Get linux toolchain"
 	OUTPUT
 		${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-linux.7z
-		${CMAKE_CURRENT_BINARY_DIR}/libisl.so.10.2.2.7z
 	BYPRODUCTS
 		${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-linux.7z
-		${CMAKE_CURRENT_BINARY_DIR}/libisl.so.10.2.2.7z
 	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 )
 
@@ -52,11 +58,14 @@ add_custom_target(
 add_custom_target(
 	configureDebPackage
 	COMMENT "Setup debian package"
-	COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_BINARY_DIR}/package
+	COMMAND ${CMAKE_COMMAND} -E remove_directory 
+	        ${CMAKE_CURRENT_BINARY_DIR}/package
 	COMMAND cp -rf ${CMAKE_CURRENT_SOURCE_DIR}/package/ ${CMAKE_CURRENT_BINARY_DIR}/package
 	COMMAND chmod -R 775 ${CMAKE_CURRENT_BINARY_DIR}/package
-	COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/package/usr/lib/x86_64-linux-gnu
-	COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/package/home/autobuild/tools
+	COMMAND ${CMAKE_COMMAND} -E make_directory 
+	        ${CMAKE_CURRENT_BINARY_DIR}/package/usr/lib/x86_64-linux-gnu
+	COMMAND ${CMAKE_COMMAND} -E make_directory 
+	        ${CMAKE_CURRENT_BINARY_DIR}/package/home/autobuild/tools
 	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 	OUTPUT
 		${CMAKE_CURRENT_SOURCE_DIR}/package/
@@ -67,8 +76,12 @@ add_custom_target(
 
 add_custom_target(
 	deb
-	COMMAND cp -f ${CMAKE_CURRENT_BINARY_DIR}/libisl.so.10.2.2 ${CMAKE_CURRENT_BINARY_DIR}/package/usr/lib/x86_64-linux-gnu/libisl.so.10.2.2
-	COMMAND cp -f ${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-linux.7z ${CMAKE_CURRENT_BINARY_DIR}/package/home/autobuild/tools
+	COMMAND cp -f 
+	        ${CMAKE_CURRENT_BINARY_DIR}/libisl.so.10.2.2
+			${CMAKE_CURRENT_BINARY_DIR}/package/usr/lib/x86_64-linux-gnu/libisl.so.10.2.2
+	COMMAND cp -f 
+	        ${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-linux.7z
+			${CMAKE_CURRENT_BINARY_DIR}/package/home/autobuild/tools
 	COMMAND dpkg-deb --build ${CMAKE_CURRENT_BINARY_DIR}/package ${CMAKE_CURRENT_BINARY_DIR}/package.deb
 	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 	COMMENT "Build deb package"
@@ -87,6 +100,7 @@ add_custom_target(
 	COMMENT "Build windows installer"
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 	SOURCES
+		${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-win.7z
 		${CMAKE_CURRENT_SOURCE_DIR}/installator.iss
 		${CMAKE_CURRENT_SOURCE_DIR}/LICENSE
 		${CMAKE_CURRENT_SOURCE_DIR}/README.md
