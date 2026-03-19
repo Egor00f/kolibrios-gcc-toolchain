@@ -29,6 +29,8 @@ add_custom_target(
 		${CMAKE_CURRENT_BINARY_DIR}/libisl.so.10.2.2.7z
 	BYPRODUCTS
 		${CMAKE_CURRENT_BINARY_DIR}/libisl.so.10.2.2.7z
+	DEPENDS
+		${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/libisl.so.10.2.2.7z
 )
 
 add_custom_target(
@@ -42,6 +44,8 @@ add_custom_target(
 	BYPRODUCTS
 		${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-linux.7z
 	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+	DEPENDS
+		${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/x86_64-linux-kos32-5.4.0.7z
 )
 
 add_custom_target(
@@ -55,6 +59,8 @@ add_custom_target(
 	BYPRODUCTS
 		${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-win.7z
 	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+	DEPENDS
+		${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/msys-kos32-5.4.0.7z
 )
 
 add_custom_target(
