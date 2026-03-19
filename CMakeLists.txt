@@ -13,6 +13,10 @@ add_custom_target(
 		${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/libisl.so.10.2.2.7z
 		${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/x86_64-linux-kos32-5.4.0.7z
 		${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/msys-kos32-5.4.0.7z
+	BYPRODUCTS
+		${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/libisl.so.10.2.2.7z
+		${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/x86_64-linux-kos32-5.4.0.7z
+		${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/msys-kos32-5.4.0.7z
 )
 
 add_custom_target(
