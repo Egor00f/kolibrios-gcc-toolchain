@@ -1,0 +1,3 @@
+[submodule "KolibriOS-gcc-toolchain-data"]
+	path = KolibriOS-gcc-toolchain-data
+	url = https://github.com/Egor00f/KolibriOS-gcc-toolchain-data
