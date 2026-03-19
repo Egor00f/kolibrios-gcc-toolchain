@@ -116,12 +116,13 @@ add_custom_target(
 
 add_custom_target(
 	Installer
-	COMMAND 7z x ${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-win.7z -o ${CMAKE_CURRENT_BINARY_DIR}/win32-win
+	COMMAND 7z x ${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-win.7z -o${CMAKE_CURRENT_BINARY_DIR}/win32-win
 	COMMAND iscc /O"${CMAKE_CURRENT_BINARY_DIR}" ${CMAKE_CURRENT_SOURCE_DIR}/installator.iss 
 	COMMENT "Build windows installer"
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-	SOURCES
+	DEPENDS
 		${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-win.7z
+	SOURCES
 		${CMAKE_CURRENT_SOURCE_DIR}/installator.iss
 		${CMAKE_CURRENT_SOURCE_DIR}/LICENSE
 		${CMAKE_CURRENT_SOURCE_DIR}/README.md
