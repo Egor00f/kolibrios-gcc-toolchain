@@ -66,19 +66,6 @@ sudo rm -rf $DEFAULT_TOOLCHAIN_DIR/kos32-toolchain-linux.7z
 
 print_ok "Successfully!"
 
-
-
-
-print_msg "Extracting libraries..."
-
-cd $TOOLCHAIN_DIR/win32/mingw32
-sudo 7z x -y -bso0 -bsp0 $DEFAULT_TOOLCHAIN_DIR/lib.7z
-sudo rm -rf $DEFAULT_TOOLCHAIN_DIR/lib.7z
-
-print_ok "Successfully!"
-
-
-
 if ! [ -d /usr/lib/x86_64-linux-gnu/ ]; then
 	sudo mkdir -p /usr/lib/x86_64-linux-gnu/
 fi
