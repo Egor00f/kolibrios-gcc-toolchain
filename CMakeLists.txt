@@ -6,14 +6,25 @@ project(
 )
 
 add_custom_target(
+	update_submodules
+	COMMAND git submodule update --init --recursive
+	COMMENT "update submodules"
+	OUTPUT 
+		${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/libisl.so.10.2.2.7z
+		${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/x86_64-linux-kos32-5.4.0.7z
+		${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/msys-kos32-5.4.0.7z
+)
+
+add_custom_target(
 	get_libisl
 	COMMAND ${CMAKE_COMMAND} -E create_symlink
 	        ${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/libisl.so.10.2.2.7z 
 			${CMAKE_CURRENT_BINARY_DIR}/libisl.so.10.2.2.7z
 	COMMENT "Get libisl"
-	OUTPUT 	${CMAKE_CURRENT_BINARY_DIR}/libisl.so.10.2.2.
+	OUTPUT 	
+		${CMAKE_CURRENT_BINARY_DIR}/libisl.so.10.2.2.7z
 	BYPRODUCTS
-		${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-linux.7z
+		${CMAKE_CURRENT_BINARY_DIR}/libisl.so.10.2.2.7z
 )
 
 add_custom_target(
@@ -32,7 +43,7 @@ add_custom_target(
 add_custom_target(
 	get_windows
 	COMMAND ${CMAKE_COMMAND} -E create_symlink
-	        ${CMAKE_CURRENT_SOURCE_DIR}/kos32-toolchain-win.7z
+	        ${CMAKE_CURRENT_SOURCE_DIR}/KolibriOS-gcc-toolchain-data/msys-kos32-5.4.0.7z
 	        ${CMAKE_CURRENT_BINARY_DIR}/kos32-toolchain-win.7z
 	COMMENT "Get windows toolchain"
 	OUTPUT
