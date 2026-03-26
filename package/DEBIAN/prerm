@@ -10,3 +10,11 @@ TOOLCHAIN_DIR=$(head -n 1 $INSTALL_PATH_FILE)
 rm -Rf $TOOLCHAIN_DIR
 
 rm -Rf /home/autobuild
+
+FULL_PATH="$TOOLCHAIN_DIR/win32/bin"
+CHR="/"
+REPLACE_TO="\/"
+
+MESSAGE="${FULL_PATH//$CHR/"$REPLACE_TO"}"
+
+sudo sed -i -e '/'$MESSAGE'/d' /etc/profile
